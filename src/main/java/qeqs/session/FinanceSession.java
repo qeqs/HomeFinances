@@ -1,54 +1,19 @@
 package qeqs.session;
 
-import java.util.List;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import qeqs.entities.Finance;
 import qeqs.mappers.FinanceMapper;
+import qeqs.mappers.Mapper;
 
+@Service("financeSession")
+public class FinanceSession extends Session<Finance> {
 
-public class FinanceSession {
+    @Autowired
+    private FinanceMapper mapper;
 
-    public void save(Finance finance) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            FinanceMapper mapper = session.getMapper(FinanceMapper.class);
-            mapper.insert(finance);
-            
-            session.commit();
-        }
-    }
-
-    public void update(Finance finance) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            FinanceMapper mapper = session.getMapper(FinanceMapper.class);
-            mapper.update(finance);
-            
-            session.commit();
-        }
-    }
-
-    public void delete(Integer id) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            FinanceMapper mapper = session.getMapper(FinanceMapper.class);
-            mapper.delete(id);
-            
-            session.commit();
-        }
-    }
-
-    public Finance get(Integer id) {
-        Finance finance;
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            FinanceMapper mapper = session.getMapper(FinanceMapper.class);
-            finance = mapper.selectOne(id);
-        }
-        return finance;
-    }
-    public List<Finance> getAll(){        
-        List<Finance> finances;
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            FinanceMapper mapper = session.getMapper(FinanceMapper.class);
-            finances = mapper.selectAll();
-        }
-        return finances;
+    @Override
+    protected Mapper<Finance> getMapper() {
+        return mapper;
     }
 }

@@ -1,53 +1,19 @@
 package qeqs.session;
 
-import java.util.List;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import qeqs.entities.Type;
+import qeqs.mappers.Mapper;
 import qeqs.mappers.TypeMapper;
 
-public class TypeSession {
-    
-    public void save(Type type) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            TypeMapper mapper = session.getMapper(TypeMapper.class);
-            mapper.insert(type);
-            
-            session.commit();
-        }
-    }
+@Service("typeSession")
+public class TypeSession extends Session<Type> {
 
-    public void update(Type type) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            TypeMapper mapper = session.getMapper(TypeMapper.class);
-            mapper.update(type);
-            
-            session.commit();
-        }
-    }
+    @Autowired
+    private TypeMapper mapper;
 
-    public void delete(Integer id) {
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            TypeMapper mapper = session.getMapper(TypeMapper.class);
-            mapper.delete(id);
-            
-            session.commit();
-        }
-    }
-
-    public Type get(Integer id) {
-        Type type;
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            TypeMapper mapper = session.getMapper(TypeMapper.class);
-            type = mapper.selectOne(id);
-        }
-        return type;
-    }
-    public List<Type> getAll(){        
-        List<Type> types;
-        try (SqlSession session = SessionFactory.getSqlSessionFactory().openSession()) {
-            TypeMapper mapper = session.getMapper(TypeMapper.class);
-            types = mapper.selectAll();
-        }
-        return types;
+    @Override
+    protected Mapper<Type> getMapper() {
+        return mapper;
     }
 }
