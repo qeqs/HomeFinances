@@ -9,8 +9,11 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedTypes;
 import qeqs.entities.Finance;
 import qeqs.entities.Type;
+
 
 public interface FinanceMapper extends Mapper<Finance> {
 
@@ -23,14 +26,26 @@ public interface FinanceMapper extends Mapper<Finance> {
         ,
           @Result(property = "description", column = "description")
         ,
-          @Result(property = "type", column = "{id = type}", javaType = Type.class, one = @One(select = "qeqs.mappers.TypeMapper.selectOne"))
+          @Result(property = "type", column = "type", javaType = Type.class, jdbcType = JdbcType.INTEGER, one = @One(select = "qeqs.mappers.TypeMapper.selectOne"))
     })
-    
+
     @Select("SELECT id, value, date, description, type from finance WHERE id = #{id}")
     @Override
     Finance selectOne(int id);
 
+    @Results({
+        @Result(property = "id", column = "id")
+        ,
+          @Result(property = "value", column = "value")
+        ,
+          @Result(property = "date", column = "date")
+        ,
+          @Result(property = "description", column = "description")
+        ,
+          @Result(property = "type", column = "type", javaType = Type.class, jdbcType = JdbcType.INTEGER, one = @One(select = "qeqs.mappers.TypeMapper.selectOne"))
+    })
     @Select("SELECT id, value, date, description, type from finance")
+    
     @Override
     List<Finance> selectAll();
 
