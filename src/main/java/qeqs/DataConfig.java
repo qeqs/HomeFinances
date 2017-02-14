@@ -11,17 +11,17 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 @Configuration
-@MapperScan("qeqs.mappers")
+@MapperScan("qeqs/mappers")
 public class DataConfig {
 
     @Bean
     public DataSource dataSource() throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         
-        dataSource.setDriverClass((Class<? extends Driver>) Class.forName(ResourceBundle.getBundle("/postgres").getString("db.driver")));        
-        dataSource.setUsername(ResourceBundle.getBundle("/postgres").getString("db.user"));
-        dataSource.setUrl( ResourceBundle.getBundle("/postgres").getString("db.url"));
-        dataSource.setPassword(ResourceBundle.getBundle("/postgres").getString("db.password"));
+        dataSource.setDriverClass((Class<? extends Driver>) Class.forName(ResourceBundle.getBundle("postgres").getString("db.driver")));        
+        dataSource.setUsername(ResourceBundle.getBundle("postgres").getString("db.user"));
+        dataSource.setUrl( ResourceBundle.getBundle("postgres").getString("db.url"));
+        dataSource.setPassword(ResourceBundle.getBundle("postgres").getString("db.password"));
 
         return dataSource;
     }

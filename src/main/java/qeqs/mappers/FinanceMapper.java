@@ -10,8 +10,9 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import qeqs.entities.Finance;
+import qeqs.entities.Type;
 
-public interface FinanceMapper extends Mapper<Finance>{
+public interface FinanceMapper extends Mapper<Finance> {
 
     @Results({
         @Result(property = "id", column = "id")
@@ -22,8 +23,9 @@ public interface FinanceMapper extends Mapper<Finance>{
         ,
           @Result(property = "description", column = "description")
         ,
-          @Result(property = "type", column = "type", one = @One(select = "SELECT id,name FROM type WHERE id = #{type}"))
+          @Result(property = "type", column = "{id = type}", javaType = Type.class, one = @One(select = "qeqs.mappers.TypeMapper.selectOne"))
     })
+    
     @Select("SELECT id, value, date, description, type from finance WHERE id = #{id}")
     @Override
     Finance selectOne(int id);
