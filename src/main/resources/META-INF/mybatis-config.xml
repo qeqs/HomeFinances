@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration 
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration> 
+    <settings><!--в данном блоке можно настроить много параметров. Полный список параметров http://mybatis.github.io/mybatis-3/configuration.html#settings-->
+        <setting name="logImpl" value="LOG4J"/> 
+    </settings> 
+    <environments default="development"><!--в данном блоке настраиваются подключения к БД-->
+        <environment id="development"> 
+            <transactionManager type="JDBC"/> 
+            <dataSource type="POOLED"> 
+                <property name="driver" value="org.postgres.Driver"/> 
+                <property name="url" value="$jdbc:postgresql://localhost:5432/HomeFinance"/> 
+                <property name="username" value="postgres"/> 
+                <property name="password" value="110371"/> 
+            </dataSource> 
+        </environment> 
+    </environments> 
+    <mappers><!--в данном блоке необходимо описать маперы, которые используются в проекте-->
+        <mapper class="qeqs.mappers.FinanceMapper"/> 
+        <mapper class="qeqs.mappers.TypeMapper"/>
+    </mappers> 
+</configuration>
