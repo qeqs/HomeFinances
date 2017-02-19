@@ -38,7 +38,7 @@ public class Type implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financeType")
     private List<Finance> financeList;
 
     public Type() {

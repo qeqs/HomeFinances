@@ -5,25 +5,24 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import qeqs.entities.Type;
 
-public interface TypeMapper extends Mapper<Type>{
+public interface TypeMapper extends Mapper<Type> {
 
     @Results({
         @Result(property = "id", column = "id")
         ,
           @Result(property = "name", column = "name")
         ,
-          @Result(property = "financeList", javaType = List.class, many = @Many(select = "SELECT id, value, date, description, type FROM finance WHERE type = #{id}"))
+          @Result(property = "financeList", javaType = List.class, column = "id", many = @Many(select = "SELECT * FROM finance WHERE type = #{id}"))
     })
     @Select("SELECT id, name FROM type WHERE id = #{id}")
     @Override
-    Type selectOne(@Param("id")int id);
+    Type selectOne(int id);
 
     @Insert("INSERT into type(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id", flushCache = true, keyColumn = "id")
@@ -37,7 +36,14 @@ public interface TypeMapper extends Mapper<Type>{
     @Delete("DELETE FROM type WHERE id =#{id}")
     void delete(int id);
 
-    @Select("SELECT id, name FROM type")
+    @Results({
+        @Result(property = "id", column = "id")
+        ,
+          @Result(property = "name", column = "name")
+        ,
+          @Result(property = "financeList", javaType = List.class, column = "id", many = @Many(select = "SELECT * FROM finance WHERE type = #{id}"))
+    })
+    @Select("SELECT * FROM type")
     @Override
     List<Type> selectAll();
 }

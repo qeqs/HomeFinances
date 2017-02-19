@@ -1,5 +1,6 @@
 package qeqs.session;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qeqs.entities.Type;
@@ -10,10 +11,10 @@ import qeqs.mappers.TypeMapper;
 public class TypeSession extends Session<Type> {
 
     @Autowired
-    private TypeMapper mapper;
+    private SqlSession sqlSession;
 
     @Override
     protected Mapper<Type> getMapper() {
-        return mapper;
+        return sqlSession.getMapper(TypeMapper.class);
     }
 }

@@ -50,7 +50,7 @@ public class Finance implements Serializable {
     private String description;
     @JoinColumn(name = "type", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Type type;
+    private Type financeType;
 
     public Finance() {
     }
@@ -97,12 +97,12 @@ public class Finance implements Serializable {
         this.description = description;
     }
 
-    public Type getType() {
-        return type;
+    public Type getFinanceType() {
+        return financeType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setFinanceType(Type financeType) {
+        this.financeType = financeType;
     }
 
     @Override

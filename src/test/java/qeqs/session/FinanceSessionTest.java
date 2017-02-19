@@ -5,19 +5,18 @@
  */
 package qeqs.session;
 
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import qeqs.entities.Finance;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import qeqs.DataConfig;
+import qeqs.mappers.FinanceMapper;
 
 /**
  *
@@ -26,6 +25,9 @@ import qeqs.DataConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataConfig.class)
 public class FinanceSessionTest {
+    
+    
+    AnnotationConfigApplicationContext ctx;
 
     public FinanceSessionTest() {
     }
@@ -39,7 +41,10 @@ public class FinanceSessionTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() {        
+        ctx = new AnnotationConfigApplicationContext();
+        ctx.register(DataConfig.class);
+        ctx.refresh();
     }
 
     @After
@@ -54,9 +59,7 @@ public class FinanceSessionTest {
     @Test
     public void testGetMapper() {
         System.out.println("getAll");
-        List<Finance> expResult = null;
-        List<Finance> result = instance.getAll();
-        assertEquals(expResult, result);
+        ctx.getBean(FinanceMapper.class).selectAll();
     }
 
 }

@@ -23,14 +23,24 @@ public interface FinanceMapper extends Mapper<Finance> {
         ,
           @Result(property = "description", column = "description")
         ,
-          @Result(property = "type", column = "{id = type}", javaType = Type.class, one = @One(select = "qeqs.mappers.TypeMapper.selectOne"))
+          @Result(property = "financeType", column = "type", javaType = Type.class, one = @One(select = "SELECT * FROM type WHERE id = #{type}"))
     })
-    
-    @Select("SELECT id, value, date, description, type from finance WHERE id = #{id}")
+    @Select("SELECT * from finance WHERE id = #{id}")
     @Override
     Finance selectOne(int id);
 
-    @Select("SELECT id, value, date, description, type from finance")
+    @Results({
+        @Result(property = "id", column = "id")
+        ,
+          @Result(property = "value", column = "value")
+        ,
+          @Result(property = "date", column = "date")
+        ,
+          @Result(property = "description", column = "description")
+        ,
+          @Result(property = "financeType", column = "type", javaType = Type.class, one = @One(select = "SELECT * FROM type WHERE id = #{type}"))
+    })
+    @Select("SELECT * from finance")
     @Override
     List<Finance> selectAll();
 

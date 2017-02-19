@@ -1,5 +1,6 @@
 package qeqs.session;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qeqs.entities.Finance;
@@ -10,10 +11,10 @@ import qeqs.mappers.Mapper;
 public class FinanceSession extends Session<Finance> {
 
     @Autowired
-    private FinanceMapper mapper;
+    private SqlSession sqlSession;
 
     @Override
     protected Mapper<Finance> getMapper() {
-        return mapper;
+        return sqlSession.getMapper(FinanceMapper.class);
     }
 }
