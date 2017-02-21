@@ -37,7 +37,8 @@ public class DataConfig {
     public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setTypeAliasesPackage("qeqs.entities");
+        //sessionFactory.setTypeAliasesPackage("qeqs.entities");
+        
         return sessionFactory;
     }
 }

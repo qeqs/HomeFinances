@@ -2,43 +2,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:h="http://java.sun.com/jsf/html">
     <head>
         <title>Home Finances</title>
     </head>
-    <body>
+    <h:body>
         <f:view>
             <h:form>
-                <rich:panel>
-                    <rich:dataTable value="#{financeController.finances}" var="item">
+                    <h:dataTable value="#{financeController.finances}" var="item">
 
                         <f:facet name="header">
                             <h:outputLabel value="All budget changes"/>
                         </f:facet>
-                        <rich:column>
+                        <h:column>
                             <f:facet name="header">       
                                 <h:outputLabel value="Date"/>
                             </f:facet>            
                             <h:outputText value="#{item.date}"/>
-                        </rich:column>
+                        </h:column>
 
-                        <rich:column>
+                        <h:column>
                             <f:facet name="header">       
-                                <h:outputLabel value="value"/>
+                                <h:outputLabel value="Value"/>
                             </f:facet>            
                             <h:outputText value="#{item.value}"/>
-                        </rich:column>
-                        <rich:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">       
                                 <h:outputLabel value="Saldo = #{financeController.saldo}"/>
                             </f:facet>            
-                        </rich:column>
-                    </rich:dataTable>
-                </rich:panel>
+                        </h:column>
+                    </h:dataTable>
             </h:form>
         </f:view>
-    </body>
+    </h:body>
 </html>
 

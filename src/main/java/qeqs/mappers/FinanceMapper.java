@@ -40,7 +40,7 @@ public interface FinanceMapper extends Mapper<Finance> {
         ,
           @Result(property = "financeType", column = "type", javaType = Type.class, one = @One(select = "SELECT * FROM type WHERE id = #{type}"))
     })
-    @Select("SELECT * from finance")
+    @Select("SELECT * FROM finance")
     @Override
     List<Finance> selectAll();
 
