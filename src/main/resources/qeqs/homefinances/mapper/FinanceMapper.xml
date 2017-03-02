@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="qeqs.homefinances.mapper.FinanceMapper">
+
+  <cache />
+  
+  <resultMap type="Finance" id="FinanceMap">
+    <id property="id" column="id"/>
+    <result property="value" column="value"/>
+    <result property="date" column="date"/>
+    <result property="description" column="description"/>
+    <association property="financeType" resultMap="TypeMap"/>
+   </resultMap>
+    
+ <resultMap type="Type" id="TypeMap">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <collection property="financeList" resultMap="FinanceMap"/>   
+   </resultMap>
+
+  <select id="selectOne" resultMap="FinanceMap">
+    SELECT * from finance WHERE id = #{id}
+  </select>
+
+  <select id="selectAll" resultMap="FinanceMap">
+    SELECT * FROM finance
+  </select>
+
+  <update id="update" parameterType="Finance">
+    UPDATE finance 
+      SET 
+      value=#{value}, 
+      date=#{date}, 
+      description=#{description}, 
+      type=#{type} 
+      WHERE id =#{id}
+  </update>
+
+  <insert id="insert" parameterType="Finance">
+    INSERT into finance(value, date, description, type) 
+    VALUES(#{value}, #{date}, #{description}, #{type})
+  </insert>
+  
+  <delete id="delete" parameterType="Integer">
+      DELETE FROM finance WHERE id =#{id}
+  </delete>
+
+</mapper>

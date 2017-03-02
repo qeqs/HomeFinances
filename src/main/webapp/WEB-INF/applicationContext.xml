@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd" default-autowire="byName">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgres.Driver"/> 
+        <property name="url" value="jdbc:postgresql://localhost:5432/HomeFinance"/> 
+        <property name="username" value="postgres"/> 
+        <property name="password" value="110371"/> 
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean> 
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="org.mybatis.jpetstore.domain" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+    
+    <bean id="financeService" class="qeqs.homefinances.service.FinanceService">
+        <property name="financeMapper" ref="financeMapper"/> 
+    </bean>
+    
+    <bean id="typeService" class="qeqs.homefinances.service.TypeService">
+        <property name="typeMapper" ref="typeMapper"/> 
+    </bean>
+    
+    <bean id="financeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="qeqs.homefinances.mapper.FinanceMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="typeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="qeqs.homefinances.mapper.TypeMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <context:component-scan base-package="qeqs.homefinances.logic" />
+    <context:component-scan base-package="qeqs.homefinances.controller" />
+    <context:annotation-config/>
+</beans>
