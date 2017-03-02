@@ -5,6 +5,17 @@
         <typeAlias alias="Finance" type ="qeqs.homefinances.domain.Finance" />
         <typeAlias alias="Type" type ="qeqs.homefinances.domain.Type" />
     </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED"> 
+                <property name="driver" value="org.postgresql.Driver"/> 
+                <property name="url" value="jdbc:postgresql://localhost:5432/HomeFinance"/> 
+                <property name="username" value="postgres"/> 
+                <property name="password" value="110371"/> 
+            </dataSource>
+        </environment>
+    </environments>
     <mappers>        
         <mapper resource="qeqs/homefinances/mapper/FinanceMapper.xml"/>
         <mapper resource="qeqs/homefinances/mapper/TypeMapper.xml"/>

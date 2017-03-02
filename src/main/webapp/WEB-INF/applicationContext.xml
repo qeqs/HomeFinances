@@ -13,7 +13,7 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
-        <property name="driverClassName" value="org.postgres.Driver"/> 
+        <property name="driverClassName" value="org.postgresql.Driver"/> 
         <property name="url" value="jdbc:postgresql://localhost:5432/HomeFinance"/> 
         <property name="username" value="postgres"/> 
         <property name="password" value="110371"/> 

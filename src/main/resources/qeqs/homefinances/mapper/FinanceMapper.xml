@@ -21,15 +21,15 @@
    </resultMap>
 
   <select id="selectOne" resultMap="FinanceMap">
-    SELECT * from finance WHERE id = #{id}
+    SELECT * from public."Finance" WHERE id = #{id}
   </select>
 
   <select id="selectAll" resultMap="FinanceMap">
-    SELECT * FROM finance
+    SELECT * FROM public."Finance"
   </select>
 
   <update id="update" parameterType="Finance">
-    UPDATE finance 
+    UPDATE public."Finance"
       SET 
       value=#{value}, 
       date=#{date}, 
@@ -39,12 +39,12 @@
   </update>
 
   <insert id="insert" parameterType="Finance">
-    INSERT into finance(value, date, description, type) 
+    INSERT into public."Finance"(value, date, description, type) 
     VALUES(#{value}, #{date}, #{description}, #{type})
   </insert>
   
   <delete id="delete" parameterType="Integer">
-      DELETE FROM finance WHERE id =#{id}
+      DELETE FROM public."Finance" WHERE id =#{id}
   </delete>
 
 </mapper>
