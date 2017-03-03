@@ -45,7 +45,7 @@ public class TypeController {
         try{
         typeService.save(selectedType);
         JsfUtil.addSuccessMessage("Type created");
-        return "createFinance";
+        return "createType";
         }
         catch(Exception e){
             JsfUtil.addErrorMessage(e, "Error");
