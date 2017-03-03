@@ -51,11 +51,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -222,5 +222,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <id>RichFaces-maven-lib</id>
+            <layout>default</layout>
+            <name>Repository for library RichFaces-maven-lib</name>
+        </repository>
+    </repositories>
 </project>

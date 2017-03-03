@@ -57,7 +57,13 @@ public class Finance implements Serializable {
     }
 
     public Type getFinanceType() {
-        return financeType;
+        if (financeType == null) {
+            Type type = new Type();
+            type.setName("no type");
+            return type;
+        } else {
+            return financeType;
+        }
     }
 
     public void setFinanceType(Type financeType) {

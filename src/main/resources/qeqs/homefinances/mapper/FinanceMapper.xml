@@ -4,47 +4,52 @@
 
 <mapper namespace="qeqs.homefinances.mapper.FinanceMapper">
 
-  <cache />
+    <cache />
   
-  <resultMap type="Finance" id="FinanceMap">
-    <id property="id" column="id"/>
-    <result property="value" column="value"/>
-    <result property="date" column="date"/>
-    <result property="description" column="description"/>
-    <association property="financeType" resultMap="TypeMap"/>
-   </resultMap>
+    <resultMap type="Finance" id="FinanceMap" autoMapping="true">
+        <id property="id" column="id"/>
+        <association property="financeType" javaType="Type" column="type" select="selectOneType">       
+        </association>
+    </resultMap>
+    <resultMap type="Type" id="TypeMap" autoMapping="true">
+        <id property="id" column="id"/>
+        <collection property="financeList" javaType="List" ofType="Finance" select="selectFinances" column="id">    
+        </collection>
+    </resultMap>
     
- <resultMap type="Type" id="TypeMap">
-    <id property="id" column="id"/>
-    <result property="name" column="name"/>
-    <collection property="financeList" resultMap="FinanceMap"/>   
-   </resultMap>
+    <select id="selectFinances" resultMap="FinanceMap" resultType="List">
+        SELECT * from public."Finance" WHERE type = #{id}
+    </select>
 
-  <select id="selectOne" resultMap="FinanceMap">
-    SELECT * from public."Finance" WHERE id = #{id}
-  </select>
+    <select id="selectOneType" resultMap="TypeMap" resultType="Type">
+        SELECT id, name FROM public."Type" WHERE id = #{id}
+    </select>    
 
-  <select id="selectAll" resultMap="FinanceMap">
-    SELECT * FROM public."Finance"
-  </select>
+    <select id="selectOne" resultMap="FinanceMap">
+        SELECT * from public."Finance" WHERE id = #{id}
+    </select>
 
-  <update id="update" parameterType="Finance">
-    UPDATE public."Finance"
-      SET 
-      value=#{value}, 
-      date=#{date}, 
-      description=#{description}, 
-      type=#{type} 
-      WHERE id =#{id}
-  </update>
+    <select id="selectAll" resultMap="FinanceMap" resultType="List" >
+        SELECT * FROM public."Finance"
+    </select>
 
-  <insert id="insert" parameterType="Finance">
-    INSERT into public."Finance"(value, date, description, type) 
-    VALUES(#{value}, #{date}, #{description}, #{type})
-  </insert>
+    <update id="update" parameterType="Finance">
+        UPDATE public."Finance"
+        SET 
+        value=#{value}, 
+        date=#{date}, 
+        description=#{description}, 
+        type=#{type} 
+        WHERE id =#{id}
+    </update>
+
+    <insert id="insert" parameterType="Finance" useGeneratedKeys="true">
+        INSERT into public."Finance"(value, date, description, type) 
+        VALUES(#{value}, #{date}, #{description}, #{financeType.id})
+    </insert>
   
-  <delete id="delete" parameterType="Integer">
-      DELETE FROM public."Finance" WHERE id =#{id}
-  </delete>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM public."Finance" WHERE id =#{id}
+    </delete>
 
 </mapper>
