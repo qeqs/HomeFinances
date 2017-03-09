@@ -92,7 +92,7 @@ public class Finance implements Serializable {
 
     @Override
     public String toString() {
-        return "qeqs.entities.Finance[ id=" + id + " ]";
+        return "Finance[ id=" + id + "value="+value+ " ]";
     }
 
 }

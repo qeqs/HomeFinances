@@ -1,6 +1,9 @@
 package qeqs.homefinances.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
@@ -26,9 +29,29 @@ public class FinanceController {
     FinanceService financeService;
     @Autowired
     TypeService typeService;
-    
+
     Type selectedType;
     Finance selectedFinance;
+
+    public String getGraphicData() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        List<Finance> list = financeService.getAll();
+        list.sort(new Comparator<Finance>() {
+            @Override
+            public int compare(Finance o1, Finance o2) {
+                return (int)(o1.getDate().getTime()-o2.getDate().getTime());
+            }
+        });
+        Object[][] data = new Object[list.size() + 1][2];
+        data[0][0] = "\"Date\"";
+        data[0][1] = "\"Values\"";
+        for (int i = 1; i < list.size() + 1; i++) {
+            data[i][0] = "\'" + formatter.format(list.get(i - 1).getDate()) + "\'";
+            data[i][1] = list.get(i - 1).getValue();
+        }
+        
+        return Arrays.deepToString(data);
+    }
 
     public Type getSelectedType() {
         return selectedType;
@@ -36,7 +59,7 @@ public class FinanceController {
 
     public void setSelectedType(Type selectedType) {
         this.selectedType = selectedType;
-    }       
+    }
 
     public List<Finance> getFinances() {
         return financeService.getAll();
@@ -49,29 +72,36 @@ public class FinanceController {
     public void setSelectedFinance(Finance selectedFinance) {
         this.selectedFinance = selectedFinance;
     }
-    
-    public List<Finance> getFinancesByType(Type type){
-        if(type==null)return new ArrayList<>();
+
+    public List<Finance> getFinancesByType(Type type) {
+        if (type == null) {
+            return new ArrayList<>();
+        }
         return type.getFinanceList();
     }
-    public List<Finance> getFinancesIncomes(){
+
+    public List<Finance> getFinancesIncomes() {
         List<Finance> temp = financeService.getAll();
         List<Finance> result = new ArrayList<>();
         for (Finance finance : temp) {
-            if(finance.getValue()>0)
+            if (finance.getValue() > 0) {
                 result.add(finance);
-        }        
+            }
+        }
         return result;
     }
-    public List<Finance> getFinanceOutcomes(){
+
+    public List<Finance> getFinanceOutcomes() {
         List<Finance> temp = financeService.getAll();
         List<Finance> result = new ArrayList<>();
         for (Finance finance : temp) {
-            if(finance.getValue()<0)
+            if (finance.getValue() < 0) {
                 result.add(finance);
-        }        
+            }
+        }
         return result;
     }
+
     public String getSaldo() {
         return String.valueOf(calculation.saldo(financeService.getAll()));
     }
@@ -83,30 +113,31 @@ public class FinanceController {
     public String getAvgOutgo() {
         return String.valueOf(calculation.avgOutgo(getFinances()));
     }
+
     public SelectItem[] getItemsAvailableSelectOne() {
         return JsfUtil.getSelectItems(typeService.getAll(), true);
-    }   
-    public String create(){
-        try{
-        financeService.save(selectedFinance);
-        JsfUtil.addSuccessMessage("Finance created");
-        return "createFinance";
-        }
-        catch(Exception e){
+    }
+
+    public String create() {
+        try {
+            financeService.save(selectedFinance);
+            JsfUtil.addSuccessMessage("Finance created");
+            return "createFinance";
+        } catch (Exception e) {
             JsfUtil.addErrorMessage(e, "Error");
             return null;
         }
     }
-    public String prepareCreate(){
+
+    public String prepareCreate() {
         selectedFinance = new Finance();
         return "faces/createFinance";
     }
-    
 
     public Finance getFinance(java.lang.Integer id) {
         return financeService.get(id);
     }
-    
+
     @FacesConverter(forClass = Finance.class)
     public static class FinanceControllerConverter implements Converter {
 

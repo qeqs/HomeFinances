@@ -67,7 +67,7 @@ public class Type implements Serializable {
 
     @Override
     public String toString() {
-        return "qeqs.entities.Type[ id=" + id + " ]";
+        return name;
     }
 
 }
